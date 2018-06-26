@@ -202,6 +202,7 @@ GameObject:
   - component: {fileID: 638057713}
   - component: {fileID: 638057712}
   - component: {fileID: 638057714}
+  - component: {fileID: 638057715}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -248,7 +249,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.28, y: 1.28}
+  m_Size: {x: 2.56, y: 2.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -278,6 +279,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+--- !u!111 &638057715
+Animation:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 638057711}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 63ceb3d17be274f1d9811addbd08f509, type: 2}
+  - {fileID: 7400000, guid: 2458606f8012c4f549e9077179b75406, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &885511551
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,7 +517,7 @@ RectTransform:
   m_GameObject: {fileID: 1065243019}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 90}
-  m_LocalScale: {x: 0.124428935, y: 0.124428935, z: 0.124428935}
+  m_LocalScale: {x: 0.12180386, y: 0.12180386, z: 0.12180386}
   m_Children:
   - {fileID: 885511552}
   m_Father: {fileID: 0}
