@@ -5,38 +5,37 @@ using UnityEngine.UI;
 
 public class Arrow : MonoBehaviour {
 
-	public Text arrowsPassedText;
+	public Text arrowsPassedText, reactionSpeedText, statText;
 	public Text debugX, debugY;
+	public GameObject startScreen, testScreen, restartScreen, resultScreen, statScreen, go, reactionResult;
 	public bool roundStarted, roundEnded;
 
 	private GameObject arrow;
-	private Animation arrowAnim;
+	private Animation arrowAnim, goAnim, reactioResultAnim;
 	private Dictionary<int, string> directions;
 
 	private string rightDirection;
 	private float gyroX, gyroY, accX, accY;
 	private float startTime, elapsedTime;
-	private int elapsedMS;
+	private int reactionSpeed;
 	private int curRand, lastRand;
 	private int arrowsPassed;
+	private int result;
 
 	void Start() {
-		roundStarted = false;
-		roundEnded = false;
-		arrowsPassed = 0;
-		lastRand = 5;
 		directions = new Dictionary<int, string>(4);
 		directions.Add (0, "up");
 		directions.Add (1, "left");
 		directions.Add (2, "down");
 		directions.Add (3, "right");
 		arrowAnim = GetComponent<Animation> ();
-		GenerateArrow ();
+		goAnim = go.GetComponent<Animation> ();
+		reactioResultAnim = reactionResult.GetComponent<Animation> ();
 	}
 
-	void Update() {
+	void FixedUpdate() {
 
-		if (roundEnded == true) {
+		if (roundEnded == true && arrowsPassed != 15) {
 			GenerateArrow ();
 			roundEnded = false;
 		}
@@ -102,17 +101,49 @@ public class Arrow : MonoBehaviour {
 		}
 	}
 
-	void GoodRound() {
+	public void StartTest() {
 		roundStarted = false;
-		elapsedTime = Time.realtimeSinceStartup - startTime;
-		elapsedMS = Mathf.RoundToInt (elapsedTime * 1000);
-		Debug.Log (elapsedMS);
-		arrowsPassed++;
-		arrowsPassedText.text = arrowsPassed.ToString ();
-		arrowAnim.Play ("FadeOut");
+		roundEnded = false;
+		arrowsPassed = 0;
+		lastRand = -1;
+		reactionSpeed = 0;
+		statText.text = "Rounds:";
+		arrowsPassedText.text = "0 / 15";
+		startScreen.SetActive (false);
+		restartScreen.SetActive (false);
+		resultScreen.SetActive (false);
+		goAnim.Play ("Go");
+		testScreen.SetActive (true);
+		GenerateArrow ();
 	}
 
-	void GenerateArrow() {
+	public void Details() {
+		resultScreen.SetActive (false);
+		statScreen.SetActive (true);
+	}
+
+	public void Back() {
+		statScreen.SetActive (false);
+		resultScreen.SetActive (true);
+	}
+
+	private void GoodRound() {
+		roundStarted = false;
+		elapsedTime = Time.realtimeSinceStartup - startTime;
+		reactionSpeed = Mathf.RoundToInt (elapsedTime * 1000);
+		arrowsPassed++;
+		arrowsPassedText.text = arrowsPassed.ToString () + " / 15";
+		arrowAnim.Play ("FadeOut");
+		if (arrowsPassed > 5 && arrowsPassed < 16) {
+			result += reactionSpeed;
+			statText.text += "\n"+reactionSpeed;
+		}
+		if (arrowsPassed == 15) {
+			ShowResults ();
+		}
+	}
+
+	private void GenerateArrow() {
 		curRand = Random.Range (0, 4);
 		while (curRand == lastRand) {
 			curRand = Random.Range (0, 4);
@@ -124,9 +155,18 @@ public class Arrow : MonoBehaviour {
 		startTime = Time.realtimeSinceStartup;
 	}
 
-	void GameOver() {
+	private void GameOver() {
 		roundStarted = false;
 		transform.localScale = new Vector3 (0f, 0f, 0f);
-		arrowsPassedText.text = "GameOver!";
+		testScreen.SetActive (false);
+		restartScreen.SetActive (true);
+	}
+
+	private void ShowResults() {
+		result /= 10;
+		reactionSpeedText.text = result.ToString() + " ms";
+		testScreen.SetActive (false);
+		resultScreen.SetActive (true);
+		reactioResultAnim.Play ("ReactionResultFadeIn");
 	}
 }
