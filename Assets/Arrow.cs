@@ -102,6 +102,7 @@ public class Arrow : MonoBehaviour {
 	}
 
 	public void StartTest() {
+		result = 0;
 		roundStarted = false;
 		roundEnded = false;
 		arrowsPassed = 0;
