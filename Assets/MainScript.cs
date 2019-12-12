@@ -19,21 +19,21 @@ public class Question {
 }
 
 public class MainScript : MonoBehaviour {
-	public Text arrowsPassedText, reactionSpeedText;
+    public Text arrowsPassedText, reactionSpeedText;
     public GameObject startScreen, testScreen, restartScreen, resultScreen, questionScreen, endScreen;
     public GameObject go, reactionResult;
     public bool roundStarted, roundEnded;
 
     private Animation arrowAnim, goAnim, reactioResultAnim;
-	private Dictionary<int, string> directions;
+    private Dictionary<int, string> directions;
 
     private string rightDirection;
-	private float gyroX, gyroY, accX, accY;
-	private float startTime, elapsedTime;
-	private int reactionSpeed;
-	private int currentRand, lastRand;
-	private int arrowsPassed;
-	private int result;
+    private float gyroX, gyroY, accX, accY;
+    private float startTime, elapsedTime;
+    private int reactionSpeed;
+    private int currentRand, lastRand;
+    private int arrowsPassed;
+    private int result;
 
     public Text currentQuestionText;
     public Button currentQuestionOption1;
