@@ -6,9 +6,7 @@ using UnityEngine.UI;
 public class Question {
     public int id;
     public string text;
-    //OptionText, NextQuestionId, UpdateRecomendation
-    public Tuple<string, int, bool> option1;
-    public Tuple<string, int, bool> option2;
+    public Tuple<string, int, bool> option1, option2;//<OptionText, NextQuestionId, UpdateRecomendation>
     public string recomendation;
 
     public Question(byte id, string text, Tuple<string, int, bool> option1, Tuple<string, int, bool> option2, string recomendation) {
@@ -24,27 +22,29 @@ public class MainScript : MonoBehaviour {
 	public Text arrowsPassedText, reactionSpeedText;
     public GameObject startScreen, testScreen, restartScreen, resultScreen, questionScreen, endScreen;
     public GameObject go, reactionResult;
-	public bool roundStarted, roundEnded;
+    public bool roundStarted, roundEnded;
 
-	private Animation arrowAnim, goAnim, reactioResultAnim;
+    private Animation arrowAnim, goAnim, reactioResultAnim;
 	private Dictionary<int, string> directions;
-    public Question[] questions;
-    public int currentQuestionId;
-    public string currentRecomendation;
-    public Text currentQuestionText;
-    public Button currentQuestionOption1;
-    public Button currentQuestionOption2;
-    public Text recomendation;
 
     private string rightDirection;
 	private float gyroX, gyroY, accX, accY;
 	private float startTime, elapsedTime;
 	private int reactionSpeed;
-	private int curRand, lastRand;
+	private int currentRand, lastRand;
 	private int arrowsPassed;
 	private int result;
 
-	void Start() {
+    public Text currentQuestionText;
+    public Button currentQuestionOption1;
+    public Button currentQuestionOption2;
+    public Text recomendation;
+
+    private Question[] questions;
+    private int currentQuestionId;
+    private string currentRecomendation;
+
+    void Start() {
         directions = new Dictionary<int, string>(4) {
             { 0, "up" },
             { 1, "left" },
@@ -206,7 +206,7 @@ public class MainScript : MonoBehaviour {
 
     private void ShowResults() {
         result /= 10;
-        reactionSpeedText.text = result.ToString() + " ms";
+        reactionSpeedText.text = result.ToString() + " мс";
         testScreen.SetActive(false);
         resultScreen.SetActive(true);
         reactioResultAnim.Play("ReactionResultFadeIn");
@@ -243,13 +243,13 @@ public class MainScript : MonoBehaviour {
     }
 
     private void GenerateArrow() {
-        curRand = UnityEngine.Random.Range(0, 4);
-        while (curRand == lastRand) {
-            curRand = UnityEngine.Random.Range(0, 4);
+        currentRand = UnityEngine.Random.Range(0, 4);
+        while (currentRand == lastRand) {
+            currentRand = UnityEngine.Random.Range(0, 4);
         }
-        lastRand = curRand;
-        rightDirection = directions[curRand];
-        transform.eulerAngles = new Vector3(0f, 0f, curRand * 90f);
+        lastRand = currentRand;
+        rightDirection = directions[currentRand];
+        transform.eulerAngles = new Vector3(0f, 0f, currentRand * 90f);
         arrowAnim.Play("FadeIn");
         startTime = Time.realtimeSinceStartup;
     }
